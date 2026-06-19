@@ -14,7 +14,6 @@ import {
     Trophy,
 } from 'lucide-react';
 import type { ComponentType } from 'react';
-import AppLogoIcon from '@/components/app-logo-icon';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -24,12 +23,18 @@ import { dashboard, login, register } from '@/routes';
 
 function Logo() {
     return (
-        <span className="flex items-center gap-2 font-semibold">
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                <AppLogoIcon className="size-5 fill-current" />
-            </span>
-            <span className="text-lg tracking-tight">KosRank</span>
-        </span>
+        <>
+            <img
+                src="/logo-lightmode.svg"
+                alt="KosRank"
+                className="block h-8 w-auto dark:hidden"
+            />
+            <img
+                src="/logo-darkmode.svg"
+                alt="KosRank"
+                className="hidden h-8 w-auto dark:block"
+            />
+        </>
     );
 }
 
@@ -44,11 +49,7 @@ function ThemeToggle() {
             aria-label="Ganti tema"
             onClick={() => updateAppearance(isDark ? 'light' : 'dark')}
         >
-            {isDark ? (
-                <Sun className="size-5" />
-            ) : (
-                <Moon className="size-5" />
-            )}
+            {isDark ? <Sun className="size-5" /> : <Moon className="size-5" />}
         </Button>
     );
 }
@@ -68,7 +69,7 @@ const features: {
         icon: Building2,
         title: 'Bandingkan Banyak Kos',
         description:
-            'Tambahkan beberapa alternatif tempat kos dan isi nilai setiap kriteria melalui matriks yang mudah digunakan.',
+            'Tambahkan beberapa alternatif kos dan isi nilai setiap kriteria melalui matriks yang mudah digunakan.',
     },
     {
         icon: Calculator,
@@ -102,7 +103,7 @@ const steps: {
         icon: Table2,
         title: 'Isi Data Alternatif',
         description:
-            'Tambahkan tempat kos yang ingin dibandingkan, lalu isi nilai tiap kos untuk setiap kriteria.',
+            'Tambahkan kos yang ingin dibandingkan, lalu isi nilai tiap kos untuk setiap kriteria.',
     },
     {
         step: '03',
@@ -185,13 +186,13 @@ export default function Welcome() {
                                 <span>Metode Simple Additive Weighting</span>
                             </Badge>
                             <h1 className="max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
-                                Pilih Tempat Kos Terbaik dengan{' '}
+                                Pilih Kos Terbaik dengan{' '}
                                 <span className="text-primary">
                                     Keputusan yang Objektif
                                 </span>
                             </h1>
                             <p className="mt-4 max-w-2xl text-base text-muted-foreground sm:mt-6 sm:text-lg">
-                                KosRank membantu mahasiswa membandingkan tempat
+                                KosRank membantu mahasiswa membandingkan
                                 kos berdasarkan beberapa kriteria menggunakan
                                 metode SAW, lalu menghasilkan peringkat dan
                                 rekomendasi yang transparan.
@@ -232,8 +233,7 @@ export default function Welcome() {
                                 )}
                             </div>
                             <p className="mt-4 text-xs text-muted-foreground sm:text-sm">
-                                Gratis • Tanpa biaya • Cocok untuk tugas &
-                                pengambilan keputusan nyata
+                                Gratis • Mudah • Akurat
                             </p>
                         </div>
                     </div>
@@ -328,7 +328,7 @@ export default function Welcome() {
                                                                     Terbaik
                                                                 </span>
                                                             )}
-                                                            <span className="shrink-0 text-[9px] tabular-nums text-muted-foreground sm:text-xs">
+                                                            <span className="shrink-0 text-[9px] text-muted-foreground tabular-nums sm:text-xs">
                                                                 {row.score.toFixed(
                                                                     4,
                                                                 )}
@@ -396,8 +396,8 @@ export default function Welcome() {
                                 Semua yang Dibutuhkan untuk Memilih Kos
                             </h2>
                             <p className="mt-3 max-w-2xl text-sm text-muted-foreground sm:mt-4 sm:text-base">
-                                KosRank menyediakan alur lengkap dari pengelolaan
-                                data hingga rekomendasi akhir.
+                                KosRank menyediakan alur lengkap dari
+                                pengelolaan data hingga rekomendasi akhir.
                             </p>
                         </div>
 
@@ -477,7 +477,7 @@ export default function Welcome() {
                                 Siap Menemukan Kos Terbaik?
                             </h2>
                             <p className="mt-3 max-w-xl text-sm text-muted-foreground sm:mt-4 sm:text-base">
-                                Mulai bandingkan tempat kos secara objektif
+                                Mulai bandingkan kos secara objektif
                                 dengan metode SAW sekarang juga.
                             </p>
                             <ul className="mt-6 flex flex-col gap-2 text-sm text-muted-foreground sm:flex-row sm:gap-6">
@@ -502,7 +502,9 @@ export default function Welcome() {
                                     asChild
                                 >
                                     <Link
-                                        href={auth.user ? dashboard() : register()}
+                                        href={
+                                            auth.user ? dashboard() : register()
+                                        }
                                     >
                                         {auth.user
                                             ? 'Buka Dasbor'
@@ -522,7 +524,7 @@ export default function Welcome() {
                             <div className="col-span-2 md:col-span-2">
                                 <Logo />
                                 <p className="mt-3 max-w-sm text-sm leading-relaxed text-muted-foreground">
-                                    Sistem Pendukung Keputusan pemilihan tempat
+                                    Sistem Pendukung Keputusan pemilihan
                                     kos bagi mahasiswa menggunakan metode Simple
                                     Additive Weighting.
                                 </p>

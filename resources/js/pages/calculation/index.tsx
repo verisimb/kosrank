@@ -2,7 +2,7 @@ import { Head, Link } from '@inertiajs/react';
 import CalculationController from '@/actions/App/Http/Controllers/CalculationController';
 import CriterionController from '@/actions/App/Http/Controllers/CriterionController';
 import AlertError from '@/components/alert-error';
-import Heading from '@/components/heading';
+import PageHeader from '@/components/page-header';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -84,8 +84,8 @@ export default function CalculationIndex({
         <>
             <Head title="Perhitungan SAW" />
 
-            <div className="px-4 py-6">
-                <Heading
+            <div className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6">
+                <PageHeader
                     title="Perhitungan SAW"
                     description="Proses perhitungan metode Simple Additive Weighting ditampilkan secara transparan."
                 />
@@ -213,7 +213,8 @@ export default function CalculationIndex({
                                                     {criterion.name}
                                                 </TableCell>
                                                 <TableCell>
-                                                    {criterion.type === 'benefit'
+                                                    {criterion.type ===
+                                                    'benefit'
                                                         ? 'Benefit'
                                                         : 'Cost'}
                                                 </TableCell>
@@ -232,7 +233,8 @@ export default function CalculationIndex({
                                                     )}
                                                 </TableCell>
                                                 <TableCell className="text-muted-foreground">
-                                                    {criterion.type === 'benefit'
+                                                    {criterion.type ===
+                                                    'benefit'
                                                         ? 'Max (pembagi)'
                                                         : 'Min (pembilang)'}
                                                 </TableCell>
@@ -250,7 +252,8 @@ export default function CalculationIndex({
                                 title="Matriks Normalisasi (R)"
                             />
                             <p className="mb-3 text-sm text-muted-foreground">
-                                Benefit: nilai ÷ maksimum. Cost: minimum ÷ nilai.
+                                Benefit: nilai ÷ maksimum. Cost: minimum ÷
+                                nilai.
                             </p>
                             <MatrixTable
                                 criteria={result.criteria}
@@ -311,7 +314,9 @@ export default function CalculationIndex({
                                                 <TableCell className="text-right font-medium">
                                                     {row.rank}
                                                 </TableCell>
-                                                <TableCell>{row.code}</TableCell>
+                                                <TableCell>
+                                                    {row.code}
+                                                </TableCell>
                                                 <TableCell className="font-medium">
                                                     {row.name}
                                                     {row.rank === 1 && (
@@ -380,8 +385,9 @@ function MatrixTable({
                                     className="text-right"
                                 >
                                     {formatter(
-                                        matrix[alternative.id]?.[criterion.id] ??
-                                            0,
+                                        matrix[alternative.id]?.[
+                                            criterion.id
+                                        ] ?? 0,
                                     )}
                                 </TableCell>
                             ))}

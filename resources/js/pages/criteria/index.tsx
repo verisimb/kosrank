@@ -1,8 +1,8 @@
 import { Head, router, useForm } from '@inertiajs/react';
 import { useState } from 'react';
 import CriterionController from '@/actions/App/Http/Controllers/CriterionController';
-import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
+import PageHeader from '@/components/page-header';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -124,7 +124,9 @@ function CriterionDialog({
                         <Input
                             id="code"
                             value={form.data.code}
-                            onChange={(e) => form.setData('code', e.target.value)}
+                            onChange={(e) =>
+                                form.setData('code', e.target.value)
+                            }
                             placeholder="Misal: C1"
                             autoFocus
                         />
@@ -136,7 +138,9 @@ function CriterionDialog({
                         <Input
                             id="name"
                             value={form.data.name}
-                            onChange={(e) => form.setData('name', e.target.value)}
+                            onChange={(e) =>
+                                form.setData('name', e.target.value)
+                            }
                             placeholder="Misal: Harga sewa per bulan"
                         />
                         <InputError message={form.errors.name} />
@@ -186,7 +190,9 @@ function CriterionDialog({
                         <Input
                             id="unit"
                             value={form.data.unit}
-                            onChange={(e) => form.setData('unit', e.target.value)}
+                            onChange={(e) =>
+                                form.setData('unit', e.target.value)
+                            }
                             placeholder="Misal: Rp, km, skala 1-5"
                         />
                         <InputError message={form.errors.unit} />
@@ -240,109 +246,121 @@ export default function CriteriaIndex({ criteria, totalWeight }: PageProps) {
         <>
             <Head title="Kriteria" />
 
-            <div className="px-4 py-6">
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                    <Heading
-                        title="Kriteria"
-                        description="Kelola kriteria penilaian beserta bobot dan jenisnya."
-                    />
-                    <Button onClick={openCreate}>Tambah Kriteria</Button>
-                </div>
+            <div className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6">
+                <PageHeader
+                    title="Kriteria"
+                    description="Kelola kriteria penilaian beserta bobot dan jenisnya."
+                    action={
+                        <Button onClick={openCreate}>Tambah Kriteria</Button>
+                    }
+                />
 
-                <div
-                    className={`mb-4 rounded-lg border p-4 text-sm ${
-                        isWeightValid
-                            ? 'border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900/40 dark:bg-emerald-900/10 dark:text-emerald-300'
-                            : 'border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-900/40 dark:bg-amber-900/10 dark:text-amber-300'
-                    }`}
-                >
-                    <span className="font-medium">
-                        Total bobot: {weightFormatter.format(totalWeight)}%
-                    </span>{' '}
-                    {isWeightValid
-                        ? '— sudah tepat 100%, siap untuk perhitungan.'
-                        : '— total bobot harus tepat 100% sebelum perhitungan dapat dilakukan.'}
-                </div>
+                <div className="space-y-4">
+                    <div
+                        className={`rounded-lg border p-4 text-sm ${
+                            isWeightValid
+                                ? 'border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900/40 dark:bg-emerald-900/10 dark:text-emerald-300'
+                                : 'border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-900/40 dark:bg-amber-900/10 dark:text-amber-300'
+                        }`}
+                    >
+                        <span className="font-medium">
+                            Total bobot: {weightFormatter.format(totalWeight)}%
+                        </span>{' '}
+                        {isWeightValid
+                            ? '— sudah tepat 100%, siap untuk perhitungan.'
+                            : '— total bobot harus tepat 100% sebelum perhitungan dapat dilakukan.'}
+                    </div>
 
-                <div className="overflow-x-auto rounded-lg border">
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Kode</TableHead>
-                                <TableHead>Nama Kriteria</TableHead>
-                                <TableHead>Jenis</TableHead>
-                                <TableHead className="text-right">Bobot</TableHead>
-                                <TableHead>Satuan</TableHead>
-                                <TableHead className="text-right">Aksi</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {criteria.length === 0 ? (
+                    <div className="overflow-x-auto rounded-lg border">
+                        <Table>
+                            <TableHeader>
                                 <TableRow>
-                                    <TableCell
-                                        colSpan={6}
-                                        className="py-8 text-center text-muted-foreground"
-                                    >
-                                        Belum ada kriteria. Silakan tambah
-                                        kriteria terlebih dahulu.
-                                    </TableCell>
+                                    <TableHead>Kode</TableHead>
+                                    <TableHead>Nama Kriteria</TableHead>
+                                    <TableHead>Jenis</TableHead>
+                                    <TableHead className="text-right">
+                                        Bobot
+                                    </TableHead>
+                                    <TableHead>Satuan</TableHead>
+                                    <TableHead className="text-right">
+                                        Aksi
+                                    </TableHead>
                                 </TableRow>
-                            ) : (
-                                criteria.map((criterion) => (
-                                    <TableRow key={criterion.id}>
-                                        <TableCell className="font-medium">
-                                            {criterion.code}
-                                        </TableCell>
-                                        <TableCell>{criterion.name}</TableCell>
-                                        <TableCell>
-                                            <Badge
-                                                variant={
-                                                    criterion.type === 'benefit'
-                                                        ? 'default'
-                                                        : 'secondary'
-                                                }
-                                            >
-                                                {criterion.type === 'benefit'
-                                                    ? 'Benefit'
-                                                    : 'Cost'}
-                                            </Badge>
-                                        </TableCell>
-                                        <TableCell className="text-right">
-                                            {weightFormatter.format(
-                                                criterion.weight,
-                                            )}
-                                            %
-                                        </TableCell>
-                                        <TableCell>
-                                            {criterion.unit ?? '-'}
-                                        </TableCell>
-                                        <TableCell className="text-right">
-                                            <div className="flex justify-end gap-2">
-                                                <Button
-                                                    variant="outline"
-                                                    size="sm"
-                                                    onClick={() =>
-                                                        openEdit(criterion)
-                                                    }
-                                                >
-                                                    Ubah
-                                                </Button>
-                                                <Button
-                                                    variant="destructive"
-                                                    size="sm"
-                                                    onClick={() =>
-                                                        setDeleting(criterion)
-                                                    }
-                                                >
-                                                    Hapus
-                                                </Button>
-                                            </div>
+                            </TableHeader>
+                            <TableBody>
+                                {criteria.length === 0 ? (
+                                    <TableRow>
+                                        <TableCell
+                                            colSpan={6}
+                                            className="py-8 text-center text-muted-foreground"
+                                        >
+                                            Belum ada kriteria. Silakan tambah
+                                            kriteria terlebih dahulu.
                                         </TableCell>
                                     </TableRow>
-                                ))
-                            )}
-                        </TableBody>
-                    </Table>
+                                ) : (
+                                    criteria.map((criterion) => (
+                                        <TableRow key={criterion.id}>
+                                            <TableCell className="font-medium">
+                                                {criterion.code}
+                                            </TableCell>
+                                            <TableCell>
+                                                {criterion.name}
+                                            </TableCell>
+                                            <TableCell>
+                                                <Badge
+                                                    variant={
+                                                        criterion.type ===
+                                                        'benefit'
+                                                            ? 'default'
+                                                            : 'secondary'
+                                                    }
+                                                >
+                                                    {criterion.type ===
+                                                    'benefit'
+                                                        ? 'Benefit'
+                                                        : 'Cost'}
+                                                </Badge>
+                                            </TableCell>
+                                            <TableCell className="text-right">
+                                                {weightFormatter.format(
+                                                    criterion.weight,
+                                                )}
+                                                %
+                                            </TableCell>
+                                            <TableCell>
+                                                {criterion.unit ?? '-'}
+                                            </TableCell>
+                                            <TableCell className="text-right">
+                                                <div className="flex justify-end gap-2">
+                                                    <Button
+                                                        variant="outline"
+                                                        size="sm"
+                                                        onClick={() =>
+                                                            openEdit(criterion)
+                                                        }
+                                                    >
+                                                        Ubah
+                                                    </Button>
+                                                    <Button
+                                                        variant="destructive"
+                                                        size="sm"
+                                                        onClick={() =>
+                                                            setDeleting(
+                                                                criterion,
+                                                            )
+                                                        }
+                                                    >
+                                                        Hapus
+                                                    </Button>
+                                                </div>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                                )}
+                            </TableBody>
+                        </Table>
+                    </div>
                 </div>
             </div>
 

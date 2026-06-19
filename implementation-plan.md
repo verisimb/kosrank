@@ -252,14 +252,15 @@ Logika perhitungan dipisah ke service agar mudah diuji dan transparan.
 
 ---
 
-## FASE 9 — Penyempurnaan UI/UX & Responsif
+## FASE 9 — Penyempurnaan UI/UX & Responsif ✅ SELESAI
 
-- [ ] Pastikan semua tabel responsif (scroll horizontal di mobile).
-- [ ] Pesan validasi jelas di setiap form; konfirmasi sebelum hapus di semua entitas.
-- [ ] Toast notifikasi konsisten untuk simpan/ubah/hapus.
-- [ ] Navigasi sidebar lengkap & breadcrumb tiap halaman.
-- [ ] Uji tampilan di viewport desktop dan mobile.
-- [ ] Jalankan `npm run build` untuk memastikan bundling sukses.
+- [x] Komponen `PageHeader` baru untuk header halaman yang konsisten (judul + deskripsi + slot aksi), stack vertikal di mobile dan baris di desktop — memperbaiki spacing tidak rata akibat `mb-8` bawaan `Heading` di baris yang berisi tombol aksi. ✅
+- [x] Semua halaman SPK (dashboard, kriteria, alternatif, nilai, perhitungan, hasil) memakai container konsisten `mx-auto w-full max-w-6xl px-4 py-6 sm:px-6` + ritme spasi konsisten (`space-y-4`). ✅
+- [x] Semua tabel responsif (`overflow-x-auto`) untuk layar mobile; matriks nilai & matriks SAW dapat di-scroll horizontal. ✅
+- [x] Pesan validasi jelas di setiap form; konfirmasi sebelum hapus di semua entitas (dialog); toast konsisten simpan/ubah/hapus. ✅
+- [x] Navigasi sidebar lengkap (6 menu) + breadcrumb tiap halaman; item tak terpakai (Repositori/Dokumentasi) sudah dihapus. ✅
+- [x] Landing page production-ready (header, hero, preview + fade, fitur, cara kerja, CTA, footer). ✅
+- [x] Verifikasi: ESLint + Prettier bersih, build sukses, 6 halaman render 200, full suite **64 passed / 4 skipped**. ✅
 
 ---
 

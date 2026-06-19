@@ -1,10 +1,10 @@
 import { Head, Link } from '@inertiajs/react';
 import { Trophy } from 'lucide-react';
-import { Bar, BarChart, Cell, LabelList, XAxis, YAxis } from 'recharts';
 import AlternativeValueController from '@/actions/App/Http/Controllers/AlternativeValueController';
 import ResultController from '@/actions/App/Http/Controllers/ResultController';
 import AlertError from '@/components/alert-error';
-import Heading from '@/components/heading';
+import PageHeader from '@/components/page-header';
+import PreferenceBarChart from '@/components/preference-bar-chart';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -14,13 +14,6 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
-import {
-    
-    ChartContainer,
-    ChartTooltip,
-    ChartTooltipContent
-} from '@/components/ui/chart';
-import type {ChartConfig} from '@/components/ui/chart';
 import {
     Table,
     TableBody,
@@ -49,30 +42,17 @@ const decimal = new Intl.NumberFormat('id-ID', {
     maximumFractionDigits: 4,
 });
 
-const chartConfig = {
-    score: {
-        label: 'Nilai Preferensi',
-    },
-} satisfies ChartConfig;
-
 export default function ResultIndex({
     validationErrors,
     ranking,
     best,
 }: PageProps) {
-    const chartData = ranking.map((row) => ({
-        label: row.code,
-        name: row.name,
-        score: row.score,
-        rank: row.rank,
-    }));
-
     return (
         <>
             <Head title="Hasil & Rekomendasi" />
 
-            <div className="px-4 py-6">
-                <Heading
+            <div className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6">
+                <PageHeader
                     title="Hasil & Rekomendasi"
                     description="Peringkat akhir kos berdasarkan metode Simple Additive Weighting."
                 />
@@ -121,121 +101,89 @@ export default function ResultIndex({
                             </Card>
                         )}
 
-                        {/* Grafik batang nilai preferensi (recharts via shadcn) */}
-                        <Card>
-                            <CardHeader>
-                                <CardTitle className="text-base">
-                                    Grafik Nilai Preferensi
-                                </CardTitle>
-                                <CardDescription>
-                                    Perbandingan nilai preferensi (Vi) tiap
-                                    alternatif. Semakin panjang batang, semakin
-                                    tinggi nilainya.
-                                </CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <ChartContainer
-                                    config={chartConfig}
-                                    className="h-[320px] w-full"
-                                >
-                                    <BarChart
-                                        accessibilityLayer
-                                        data={chartData}
-                                        layout="vertical"
-                                        margin={{ left: 8, right: 32 }}
-                                    >
-                                        <XAxis type="number" dataKey="score" hide />
-                                        <YAxis
-                                            type="category"
-                                            dataKey="label"
-                                            tickLine={false}
-                                            axisLine={false}
-                                            width={48}
-                                        />
-                                        <ChartTooltip
-                                            cursor={false}
-                                            content={
-                                                <ChartTooltipContent
-                                                    labelKey="score"
-                                                    formatter={(value) => [
-                                                        decimal.format(
-                                                            Number(value),
-                                                        ),
-                                                        ' Nilai Preferensi',
-                                                    ]}
-                                                />
-                                            }
-                                        />
-                                        <Bar dataKey="score" radius={5}>
-                                            {chartData.map((entry) => (
-                                                <Cell
-                                                    key={entry.label}
-                                                    fill={
-                                                        entry.rank === 1
-                                                            ? '#10b981'
-                                                            : 'var(--primary)'
-                                                    }
-                                                />
-                                            ))}
-                                            <LabelList
-                                                dataKey="score"
-                                                position="right"
-                                                className="fill-foreground"
-                                                fontSize={12}
-                                                formatter={(value: number) =>
-                                                    decimal.format(value)
-                                                }
-                                            />
-                                        </Bar>
-                                    </BarChart>
-                                </ChartContainer>
-                            </CardContent>
-                        </Card>
+                        {/* Grafik + tabel peringkat berdampingan di layar lebar */}
+                        <div className="grid items-start gap-6 lg:grid-cols-2">
+                            {/* Grafik batang nilai preferensi */}
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle className="text-base">
+                                        Grafik Nilai Preferensi
+                                    </CardTitle>
+                                    <CardDescription>
+                                        Perbandingan nilai preferensi (Vi) tiap
+                                        alternatif. Semakin panjang batang,
+                                        semakin tinggi nilainya.
+                                    </CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <PreferenceBarChart data={ranking} />
+                                </CardContent>
+                            </Card>
 
-                        {/* Tabel peringkat */}
-                        <div className="overflow-x-auto rounded-lg border">
-                            <Table>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead className="text-right">
-                                            Peringkat
-                                        </TableHead>
-                                        <TableHead>Kode</TableHead>
-                                        <TableHead>Nama Kos</TableHead>
-                                        <TableHead className="text-right">
-                                            Nilai Akhir
-                                        </TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {ranking.map((row) => (
-                                        <TableRow
-                                            key={row.alternative_id}
-                                            className={
-                                                row.rank === 1
-                                                    ? 'bg-emerald-50 dark:bg-emerald-900/10'
-                                                    : undefined
-                                            }
-                                        >
-                                            <TableCell className="text-right font-medium">
-                                                {row.rank}
-                                            </TableCell>
-                                            <TableCell>{row.code}</TableCell>
-                                            <TableCell className="font-medium">
-                                                {row.name}
-                                                {row.rank === 1 && (
-                                                    <Badge className="ml-2">
-                                                        Terbaik
-                                                    </Badge>
-                                                )}
-                                            </TableCell>
-                                            <TableCell className="text-right tabular-nums">
-                                                {decimal.format(row.score)}
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
+                            {/* Tabel peringkat */}
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle className="text-base">
+                                        Peringkat Kos
+                                    </CardTitle>
+                                    <CardDescription>
+                                        Urutan kos dari nilai akhir tertinggi ke
+                                        terendah.
+                                    </CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="overflow-x-auto rounded-lg border">
+                                        <Table>
+                                            <TableHeader>
+                                                <TableRow>
+                                                    <TableHead className="text-right">
+                                                        Peringkat
+                                                    </TableHead>
+                                                    <TableHead>Kode</TableHead>
+                                                    <TableHead>
+                                                        Nama Kos
+                                                    </TableHead>
+                                                    <TableHead className="text-right">
+                                                        Nilai Akhir
+                                                    </TableHead>
+                                                </TableRow>
+                                            </TableHeader>
+                                            <TableBody>
+                                                {ranking.map((row) => (
+                                                    <TableRow
+                                                        key={row.alternative_id}
+                                                        className={
+                                                            row.rank === 1
+                                                                ? 'bg-emerald-50 dark:bg-emerald-900/10'
+                                                                : undefined
+                                                        }
+                                                    >
+                                                        <TableCell className="text-right font-medium">
+                                                            {row.rank}
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            {row.code}
+                                                        </TableCell>
+                                                        <TableCell className="font-medium">
+                                                            {row.name}
+                                                            {row.rank === 1 && (
+                                                                <Badge className="ml-2">
+                                                                    Terbaik
+                                                                </Badge>
+                                                            )}
+                                                        </TableCell>
+                                                        <TableCell className="text-right tabular-nums">
+                                                            {decimal.format(
+                                                                row.score,
+                                                            )}
+                                                        </TableCell>
+                                                    </TableRow>
+                                                ))}
+                                            </TableBody>
+                                        </Table>
+                                    </div>
+                                </CardContent>
+                            </Card>
                         </div>
                     </div>
                 )}

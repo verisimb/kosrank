@@ -1,6 +1,6 @@
 import { Head, useForm } from '@inertiajs/react';
 import AlternativeValueController from '@/actions/App/Http/Controllers/AlternativeValueController';
-import Heading from '@/components/heading';
+import PageHeader from '@/components/page-header';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -52,7 +52,9 @@ function buildInitialValues(
         for (const criterion of criteria) {
             const current = values[alternative.id]?.[criterion.id];
             result[alternative.id][criterion.id] =
-                current === null || current === undefined ? '' : String(current);
+                current === null || current === undefined
+                    ? ''
+                    : String(current);
         }
     }
 
@@ -110,8 +112,8 @@ export default function ValuesIndex({
         <>
             <Head title="Nilai Alternatif" />
 
-            <div className="px-4 py-6">
-                <Heading
+            <div className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6">
+                <PageHeader
                     title="Nilai Alternatif"
                     description="Isi nilai setiap kos untuk setiap kriteria penilaian."
                 />
@@ -123,17 +125,17 @@ export default function ValuesIndex({
                         data kriteria dan alternatif terlebih dahulu.
                     </div>
                 ) : (
-                    <form onSubmit={submit}>
+                    <form onSubmit={submit} className="space-y-4">
                         <div
-                            className={`mb-4 rounded-lg border p-4 text-sm ${
+                            className={`rounded-lg border p-4 text-sm ${
                                 isComplete
                                     ? 'border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900/40 dark:bg-emerald-900/10 dark:text-emerald-300'
                                     : 'border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-900/40 dark:bg-amber-900/10 dark:text-amber-300'
                             }`}
                         >
                             <span className="font-medium">
-                                Kelengkapan data: {filledCells}/{totalCells} nilai
-                                terisi.
+                                Kelengkapan data: {filledCells}/{totalCells}{' '}
+                                nilai terisi.
                             </span>{' '}
                             {isComplete
                                 ? '— semua nilai sudah lengkap.'
@@ -150,14 +152,14 @@ export default function ValuesIndex({
                                         {criteria.map((criterion) => (
                                             <TableHead
                                                 key={criterion.id}
-                                                className="min-w-36"
+                                                className="min-w-48 py-3 align-bottom"
                                             >
-                                                <div className="flex flex-col gap-1">
-                                                    <span className="font-medium">
+                                                <div className="flex flex-col gap-1.5">
+                                                    <span className="font-medium whitespace-nowrap">
                                                         {criterion.code} -{' '}
                                                         {criterion.name}
                                                     </span>
-                                                    <span className="flex items-center gap-1">
+                                                    <span className="flex items-center gap-2">
                                                         <Badge
                                                             variant={
                                                                 criterion.type ===
@@ -173,7 +175,9 @@ export default function ValuesIndex({
                                                         </Badge>
                                                         {criterion.unit && (
                                                             <span className="text-xs font-normal text-muted-foreground">
-                                                                ({criterion.unit})
+                                                                (
+                                                                {criterion.unit}
+                                                                )
                                                             </span>
                                                         )}
                                                     </span>
@@ -211,8 +215,10 @@ export default function ValuesIndex({
                                                             min="0"
                                                             inputMode="decimal"
                                                             value={
-                                                                form.data.values[
-                                                                    alternative.id
+                                                                form.data
+                                                                    .values[
+                                                                    alternative
+                                                                        .id
                                                                 ]?.[
                                                                     criterion.id
                                                                 ] ?? ''
@@ -245,7 +251,7 @@ export default function ValuesIndex({
                             </Table>
                         </div>
 
-                        <div className="mt-4 flex justify-end">
+                        <div className="flex justify-end">
                             <Button type="submit" disabled={form.processing}>
                                 Simpan Nilai
                             </Button>

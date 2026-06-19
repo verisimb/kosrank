@@ -1,14 +1,9 @@
 import { Head, Link } from '@inertiajs/react';
-import {
-    Building2,
-    Calculator,
-    SlidersHorizontal,
-    Trophy,
-} from 'lucide-react';
+import { Building2, Calculator, SlidersHorizontal, Trophy } from 'lucide-react';
 import type { ReactNode } from 'react';
 import CalculationController from '@/actions/App/Http/Controllers/CalculationController';
 import ResultController from '@/actions/App/Http/Controllers/ResultController';
-import Heading from '@/components/heading';
+import PageHeader from '@/components/page-header';
 import { Button } from '@/components/ui/button';
 import {
     Card,
@@ -19,7 +14,7 @@ import {
 } from '@/components/ui/card';
 import { dashboard } from '@/routes';
 
-type BestAlternative = {
+type RankingRow = {
     rank: number;
     alternative_id: number;
     code: string;
@@ -33,7 +28,7 @@ type Summary = {
     totalWeight: number;
     method: string;
     isReady: boolean;
-    best: BestAlternative | null;
+    best: RankingRow | null;
 };
 
 type PageProps = {
@@ -83,8 +78,8 @@ export default function Dashboard({ summary }: PageProps) {
         <>
             <Head title="Dasbor" />
 
-            <div className="px-4 py-6">
-                <Heading
+            <div className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6">
+                <PageHeader
                     title="Dasbor"
                     description="Ringkasan data dan hasil Sistem Pendukung Keputusan pemilihan kos."
                 />
@@ -138,13 +133,15 @@ export default function Dashboard({ summary }: PageProps) {
                                         </Link>
                                     </Button>
                                     <Button asChild>
-                                        <Link href={ResultController.index.url()}>
+                                        <Link
+                                            href={ResultController.index.url()}
+                                        >
                                             Lihat Hasil & Rekomendasi
                                         </Link>
                                     </Button>
                                 </div>
                             </CardContent>
-                        </Card>
+                            </Card>
                     ) : (
                         <Card>
                             <CardHeader>
@@ -154,12 +151,15 @@ export default function Dashboard({ summary }: PageProps) {
                                 <CardDescription>
                                     Lengkapi kriteria (total bobot 100%),
                                     alternatif (minimal 5), dan seluruh nilai
-                                    alternatif untuk menjalankan perhitungan SAW.
+                                    alternatif untuk menjalankan perhitungan
+                                    SAW.
                                 </CardDescription>
                             </CardHeader>
                             <CardContent>
                                 <Button asChild>
-                                    <Link href={CalculationController.index.url()}>
+                                    <Link
+                                        href={CalculationController.index.url()}
+                                    >
                                         Mulai Perhitungan
                                     </Link>
                                 </Button>

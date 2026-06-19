@@ -1,8 +1,8 @@
 import { Head, router, useForm } from '@inertiajs/react';
 import { useState } from 'react';
 import AlternativeController from '@/actions/App/Http/Controllers/AlternativeController';
-import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
+import PageHeader from '@/components/page-header';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -101,7 +101,9 @@ function AlternativeDialog({
                         <Input
                             id="code"
                             value={form.data.code}
-                            onChange={(e) => form.setData('code', e.target.value)}
+                            onChange={(e) =>
+                                form.setData('code', e.target.value)
+                            }
                             placeholder="Misal: A1"
                             autoFocus
                         />
@@ -113,7 +115,9 @@ function AlternativeDialog({
                         <Input
                             id="name"
                             value={form.data.name}
-                            onChange={(e) => form.setData('name', e.target.value)}
+                            onChange={(e) =>
+                                form.setData('name', e.target.value)
+                            }
                             placeholder="Misal: Kos Mawar"
                         />
                         <InputError message={form.errors.name} />
@@ -178,14 +182,14 @@ export default function AlternativesIndex({ alternatives }: PageProps) {
         <>
             <Head title="Alternatif" />
 
-            <div className="px-4 py-6">
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                    <Heading
-                        title="Alternatif Kos"
-                        description="Kelola daftar tempat kos yang akan dibandingkan."
-                    />
-                    <Button onClick={openCreate}>Tambah Alternatif</Button>
-                </div>
+            <div className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6">
+                <PageHeader
+                    title="Alternatif Kos"
+                    description="Kelola daftar tempat kos yang akan dibandingkan."
+                    action={
+                        <Button onClick={openCreate}>Tambah Alternatif</Button>
+                    }
+                />
 
                 <div className="overflow-x-auto rounded-lg border">
                     <Table>
@@ -194,7 +198,9 @@ export default function AlternativesIndex({ alternatives }: PageProps) {
                                 <TableHead>Kode</TableHead>
                                 <TableHead>Nama Kos</TableHead>
                                 <TableHead>Lokasi</TableHead>
-                                <TableHead className="text-right">Aksi</TableHead>
+                                <TableHead className="text-right">
+                                    Aksi
+                                </TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -214,7 +220,9 @@ export default function AlternativesIndex({ alternatives }: PageProps) {
                                         <TableCell className="font-medium">
                                             {alternative.code}
                                         </TableCell>
-                                        <TableCell>{alternative.name}</TableCell>
+                                        <TableCell>
+                                            {alternative.name}
+                                        </TableCell>
                                         <TableCell>
                                             {alternative.location}
                                         </TableCell>
