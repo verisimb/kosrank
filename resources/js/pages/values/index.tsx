@@ -61,6 +61,39 @@ function buildInitialValues(
     return result;
 }
 
+/**
+ * Format a raw numeric string with thousands separators for display while the
+ * user types, e.g. "500000" -> "500,000" and "1.8" -> "1.8". The decimal point
+ * stays a dot so decimals (jarak/fasilitas) tetap mudah diketik.
+ */
+function formatNumberInput(raw: string): string {
+    if (raw === '') {
+        return '';
+    }
+
+    const [intPart, ...rest] = raw.split('.');
+    const grouped = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+    return rest.length > 0 ? `${grouped}.${rest.join('')}` : grouped;
+}
+
+/**
+ * Strip grouping separators back to a raw numeric string (digits + one dot)
+ * that is safe to submit to the backend.
+ */
+function parseNumberInput(display: string): string {
+    let cleaned = display.replace(/[^\d.]/g, '');
+    const firstDot = cleaned.indexOf('.');
+
+    if (firstDot !== -1) {
+        cleaned =
+            cleaned.slice(0, firstDot + 1) +
+            cleaned.slice(firstDot + 1).replace(/\./g, '');
+    }
+
+    return cleaned;
+}
+
 export default function ValuesIndex({
     criteria,
     alternatives,
@@ -210,25 +243,25 @@ export default function ValuesIndex({
                                                         className="align-top"
                                                     >
                                                         <Input
-                                                            type="number"
-                                                            step="any"
-                                                            min="0"
+                                                            type="text"
                                                             inputMode="decimal"
-                                                            value={
+                                                            value={formatNumberInput(
                                                                 form.data
                                                                     .values[
                                                                     alternative
                                                                         .id
                                                                 ]?.[
                                                                     criterion.id
-                                                                ] ?? ''
-                                                            }
+                                                                ] ?? '',
+                                                            )}
                                                             onChange={(e) =>
                                                                 handleChange(
                                                                     alternative.id,
                                                                     criterion.id,
-                                                                    e.target
-                                                                        .value,
+                                                                    parseNumberInput(
+                                                                        e.target
+                                                                            .value,
+                                                                    ),
                                                                 )
                                                             }
                                                             aria-invalid={
