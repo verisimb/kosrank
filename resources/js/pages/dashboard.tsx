@@ -76,11 +76,11 @@ function StatCard({
 export default function Dashboard({ summary }: PageProps) {
     return (
         <>
-            <Head title="Dasbor" />
+            <Head title="Dashboard" />
 
             <div className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6">
                 <PageHeader
-                    title="Dasbor"
+                    title="Dashboard"
                     description="Ringkasan data dan hasil Sistem Pendukung Keputusan pemilihan kos."
                 />
 
@@ -175,7 +175,7 @@ export default function Dashboard({ summary }: PageProps) {
 Dashboard.layout = {
     breadcrumbs: [
         {
-            title: 'Dasbor',
+            title: 'Dashboard',
             href: dashboard(),
         },
     ],

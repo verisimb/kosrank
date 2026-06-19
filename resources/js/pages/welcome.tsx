@@ -152,7 +152,7 @@ export default function Welcome() {
                             <ThemeToggle />
                             {auth.user ? (
                                 <Button size="sm" asChild>
-                                    <Link href={dashboard()}>Buka Dasbor</Link>
+                                    <Link href={dashboard()}>Buka Dashboard</Link>
                                 </Button>
                             ) : (
                                 <>
@@ -205,7 +205,7 @@ export default function Welcome() {
                                         asChild
                                     >
                                         <Link href={dashboard()}>
-                                            Buka Dasbor
+                                            Buka Dashboard
                                             <LayoutDashboard className="size-4" />
                                         </Link>
                                     </Button>
@@ -507,7 +507,7 @@ export default function Welcome() {
                                         }
                                     >
                                         {auth.user
-                                            ? 'Buka Dasbor'
+                                            ? 'Buka Dashboard'
                                             : 'Mulai Sekarang'}
                                         <ArrowRight className="size-4" />
                                     </Link>
