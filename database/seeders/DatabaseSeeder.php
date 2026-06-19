@@ -14,16 +14,11 @@ class DatabaseSeeder extends Seeder
     /**
      * Seed the application's database.
      *
-     * Uses static data (no factories/Faker) so it can run in production builds
-     * installed with `--no-dev`, and is idempotent (safe to run repeatedly).
+     * Creates the demo user first, then seeds criteria & alternatives owned by
+     * that user. Idempotent and Faker-free so it is safe in production builds.
      */
     public function run(): void
     {
-        $this->call([
-            CriteriaSeeder::class,
-            AlternativeSeeder::class,
-        ]);
-
         User::firstOrCreate(
             ['email' => 'test@example.com'],
             [
@@ -32,5 +27,10 @@ class DatabaseSeeder extends Seeder
                 'email_verified_at' => now(),
             ],
         );
+
+        $this->call([
+            CriteriaSeeder::class,
+            AlternativeSeeder::class,
+        ]);
     }
 }

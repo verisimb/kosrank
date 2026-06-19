@@ -18,8 +18,8 @@ test('authenticated users can visit the dashboard', function () {
 });
 
 it('menampilkan ringkasan jumlah kriteria, alternatif, dan alternatif terbaik saat data lengkap', function () {
-    $this->seed([CriteriaSeeder::class, AlternativeSeeder::class]);
     $user = User::factory()->create();
+    $this->seed([CriteriaSeeder::class, AlternativeSeeder::class]);
 
     $this->actingAs($user)
         ->get(route('dashboard'))

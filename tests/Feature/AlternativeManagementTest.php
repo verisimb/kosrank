@@ -10,7 +10,7 @@ beforeEach(function () {
 });
 
 it('menampilkan halaman daftar alternatif', function () {
-    Alternative::factory()->count(3)->create();
+    Alternative::factory()->for($this->user)->count(3)->create();
 
     $this->actingAs($this->user)
         ->get(route('alternatives.index'))
@@ -32,6 +32,7 @@ it('dapat menambah alternatif baru', function () {
         ->assertRedirect(route('alternatives.index'));
 
     $this->assertDatabaseHas('alternatives', [
+        'user_id' => $this->user->id,
         'code' => 'A1',
         'name' => 'Kos Mawar',
         'location' => 'Jl. Mawar No. 1',
@@ -39,7 +40,7 @@ it('dapat menambah alternatif baru', function () {
 });
 
 it('dapat mengubah alternatif', function () {
-    $alternative = Alternative::factory()->create(['code' => 'A1', 'name' => 'Kos Lama']);
+    $alternative = Alternative::factory()->for($this->user)->create(['code' => 'A1', 'name' => 'Kos Lama']);
 
     $this->actingAs($this->user)
         ->put(route('alternatives.update', $alternative), [
@@ -55,8 +56,8 @@ it('dapat mengubah alternatif', function () {
 });
 
 it('dapat menghapus alternatif beserta nilainya', function () {
-    $alternative = Alternative::factory()->create();
-    $criterion = Criterion::factory()->create();
+    $alternative = Alternative::factory()->for($this->user)->create();
+    $criterion = Criterion::factory()->for($this->user)->create();
     AlternativeValue::factory()->create([
         'alternative_id' => $alternative->id,
         'criterion_id' => $criterion->id,
@@ -82,8 +83,8 @@ it('menolak alternatif tanpa nama dan lokasi', function () {
     $this->assertDatabaseCount('alternatives', 0);
 });
 
-it('menolak kode alternatif yang duplikat', function () {
-    Alternative::factory()->create(['code' => 'A1']);
+it('menolak kode alternatif yang duplikat dalam satu pengguna', function () {
+    Alternative::factory()->for($this->user)->create(['code' => 'A1']);
 
     $this->actingAs($this->user)
         ->post(route('alternatives.store'), [

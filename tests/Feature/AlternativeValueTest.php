@@ -9,8 +9,8 @@ beforeEach(function () {
 });
 
 it('menampilkan matriks nilai alternatif', function () {
-    Criterion::factory()->benefit()->create(['code' => 'C1']);
-    Alternative::factory()->create(['code' => 'A1']);
+    Criterion::factory()->for($this->user)->benefit()->create(['code' => 'C1']);
+    Alternative::factory()->for($this->user)->create(['code' => 'A1']);
 
     $this->actingAs($this->user)
         ->get(route('values.index'))
@@ -25,8 +25,8 @@ it('menampilkan matriks nilai alternatif', function () {
 });
 
 it('dapat menyimpan nilai alternatif yang valid', function () {
-    $criterion = Criterion::factory()->benefit()->create();
-    $alternative = Alternative::factory()->create();
+    $criterion = Criterion::factory()->for($this->user)->benefit()->create();
+    $alternative = Alternative::factory()->for($this->user)->create();
 
     $this->actingAs($this->user)
         ->put(route('values.update'), [
@@ -46,8 +46,8 @@ it('dapat menyimpan nilai alternatif yang valid', function () {
 });
 
 it('memperbarui nilai yang sudah ada tanpa menduplikasi', function () {
-    $criterion = Criterion::factory()->benefit()->create();
-    $alternative = Alternative::factory()->create();
+    $criterion = Criterion::factory()->for($this->user)->benefit()->create();
+    $alternative = Alternative::factory()->for($this->user)->create();
     $alternative->alternativeValues()->create([
         'criterion_id' => $criterion->id,
         'value' => 2,
@@ -72,8 +72,8 @@ it('memperbarui nilai yang sudah ada tanpa menduplikasi', function () {
 });
 
 it('menolak nilai kosong', function () {
-    $criterion = Criterion::factory()->benefit()->create();
-    $alternative = Alternative::factory()->create();
+    $criterion = Criterion::factory()->for($this->user)->benefit()->create();
+    $alternative = Alternative::factory()->for($this->user)->create();
 
     $this->actingAs($this->user)
         ->put(route('values.update'), [
@@ -87,8 +87,8 @@ it('menolak nilai kosong', function () {
 });
 
 it('menolak nilai non-angka', function () {
-    $criterion = Criterion::factory()->benefit()->create();
-    $alternative = Alternative::factory()->create();
+    $criterion = Criterion::factory()->for($this->user)->benefit()->create();
+    $alternative = Alternative::factory()->for($this->user)->create();
 
     $this->actingAs($this->user)
         ->put(route('values.update'), [
@@ -102,8 +102,8 @@ it('menolak nilai non-angka', function () {
 });
 
 it('menolak nilai nol pada kriteria cost (pembagian nol)', function () {
-    $criterion = Criterion::factory()->cost()->create();
-    $alternative = Alternative::factory()->create();
+    $criterion = Criterion::factory()->for($this->user)->cost()->create();
+    $alternative = Alternative::factory()->for($this->user)->create();
 
     $this->actingAs($this->user)
         ->put(route('values.update'), [

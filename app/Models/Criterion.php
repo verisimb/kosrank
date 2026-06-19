@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Enums\CriterionType;
+use App\Models\Concerns\BelongsToUser;
+use Database\Factories\CriterionFactory;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
+ * @property int $user_id
  * @property string $code
  * @property string $name
  * @property CriterionType $type
@@ -21,10 +24,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Criterion extends Model
 {
-    /** @use HasFactory<\Database\Factories\CriterionFactory> */
-    use HasFactory;
+    /** @use HasFactory<CriterionFactory> */
+    use BelongsToUser, HasFactory;
 
     protected $fillable = [
+        'user_id',
         'code',
         'name',
         'type',

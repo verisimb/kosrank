@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Enums\CriterionType;
 use App\Models\Criterion;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,6 +20,7 @@ class CriterionFactory extends Factory
     public function definition(): array
     {
         return [
+            'user_id' => User::factory(),
             'code' => 'C'.fake()->unique()->numberBetween(1, 9999),
             'name' => fake()->words(2, true),
             'type' => fake()->randomElement(CriterionType::cases()),

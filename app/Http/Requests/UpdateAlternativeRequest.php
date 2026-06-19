@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Alternative;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -11,7 +12,7 @@ class UpdateAlternativeRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
@@ -19,7 +20,7 @@ class UpdateAlternativeRequest extends FormRequest
         $alternativeId = $alternative instanceof Alternative ? $alternative->id : null;
 
         return [
-            'code' => ['required', 'string', 'max:20', Rule::unique('alternatives', 'code')->ignore($alternativeId)],
+            'code' => ['required', 'string', 'max:20', Rule::unique('alternatives', 'code')->where('user_id', $this->user()->id)->ignore($alternativeId)],
             'name' => ['required', 'string', 'max:255'],
             'location' => ['required', 'string', 'max:255'],
         ];

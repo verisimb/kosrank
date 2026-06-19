@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\BelongsToUser;
+use Database\Factories\AlternativeFactory;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
+ * @property int $user_id
  * @property string $code
  * @property string $name
  * @property string $location
@@ -18,10 +21,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Alternative extends Model
 {
-    /** @use HasFactory<\Database\Factories\AlternativeFactory> */
-    use HasFactory;
+    /** @use HasFactory<AlternativeFactory> */
+    use BelongsToUser, HasFactory;
 
     protected $fillable = [
+        'user_id',
         'code',
         'name',
         'location',

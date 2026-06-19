@@ -3,9 +3,16 @@
 use App\Exceptions\SawCalculationException;
 use App\Models\Alternative;
 use App\Models\Criterion;
+use App\Models\User;
 use App\Services\SawCalculatorService;
 use Database\Seeders\AlternativeSeeder;
 use Database\Seeders\CriteriaSeeder;
+use Illuminate\Support\Collection;
+
+beforeEach(function () {
+    // Seeders attach data to the first user; ensure one exists.
+    User::factory()->create();
+});
 
 function sawService(): SawCalculatorService
 {
@@ -15,7 +22,7 @@ function sawService(): SawCalculatorService
 /**
  * Load seeded criteria and alternatives in a deterministic order.
  *
- * @return array{0: \Illuminate\Support\Collection<int, Criterion>, 1: \Illuminate\Support\Collection<int, Alternative>}
+ * @return array{0: Collection<int, Criterion>, 1: Collection<int, Alternative>}
  */
 function loadSawData(): array
 {

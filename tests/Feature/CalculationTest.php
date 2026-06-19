@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Alternative;
+use App\Models\Criterion;
 use App\Models\User;
 use Database\Seeders\AlternativeSeeder;
 use Database\Seeders\CriteriaSeeder;
@@ -25,7 +27,7 @@ it('menolak perhitungan ketika total bobot tidak 100%', function () {
     $this->seed([CriteriaSeeder::class, AlternativeSeeder::class]);
 
     // Ubah bobot salah satu kriteria sehingga total ≠ 100.
-    \App\Models\Criterion::where('code', 'C1')->update(['weight' => 50]);
+    Criterion::where('code', 'C1')->update(['weight' => 50]);
 
     $this->actingAs($this->user)
         ->get(route('calculation.index'))
@@ -40,8 +42,8 @@ it('menolak perhitungan ketika total bobot tidak 100%', function () {
 
 it('menolak perhitungan ketika jumlah alternatif kurang dari lima', function () {
     $this->seed([CriteriaSeeder::class]);
-    \App\Models\Alternative::factory()->count(3)->create()->each(function ($alternative) {
-        foreach (\App\Models\Criterion::all() as $criterion) {
+    Alternative::factory()->for($this->user)->count(3)->create()->each(function ($alternative) {
+        foreach (Criterion::all() as $criterion) {
             $alternative->alternativeValues()->create([
                 'criterion_id' => $criterion->id,
                 'value' => $criterion->type->value === 'cost' ? 5 : 4,

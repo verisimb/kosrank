@@ -8,8 +8,8 @@ beforeEach(function () {
 });
 
 it('menampilkan halaman daftar kriteria beserta total bobot', function () {
-    Criterion::factory()->benefit()->create(['code' => 'C1', 'weight' => 60]);
-    Criterion::factory()->cost()->create(['code' => 'C2', 'weight' => 40]);
+    Criterion::factory()->for($this->user)->benefit()->create(['code' => 'C1', 'weight' => 60]);
+    Criterion::factory()->for($this->user)->cost()->create(['code' => 'C2', 'weight' => 40]);
 
     $this->actingAs($this->user)
         ->get(route('criteria.index'))
@@ -34,6 +34,7 @@ it('dapat menambah kriteria baru', function () {
         ->assertRedirect(route('criteria.index'));
 
     $this->assertDatabaseHas('criteria', [
+        'user_id' => $this->user->id,
         'code' => 'C1',
         'name' => 'Harga sewa per bulan',
         'type' => 'cost',
@@ -42,7 +43,7 @@ it('dapat menambah kriteria baru', function () {
 });
 
 it('dapat mengubah kriteria', function () {
-    $criterion = Criterion::factory()->benefit()->create(['code' => 'C1', 'weight' => 20]);
+    $criterion = Criterion::factory()->for($this->user)->benefit()->create(['code' => 'C1', 'weight' => 20]);
 
     $this->actingAs($this->user)
         ->put(route('criteria.update', $criterion), [
@@ -60,7 +61,7 @@ it('dapat mengubah kriteria', function () {
 });
 
 it('dapat menghapus kriteria', function () {
-    $criterion = Criterion::factory()->create();
+    $criterion = Criterion::factory()->for($this->user)->create();
 
     $this->actingAs($this->user)
         ->delete(route('criteria.destroy', $criterion))
@@ -82,8 +83,8 @@ it('menolak kriteria tanpa nama dan bobot tidak valid', function () {
     $this->assertDatabaseCount('criteria', 0);
 });
 
-it('menolak kode kriteria yang duplikat', function () {
-    Criterion::factory()->create(['code' => 'C1']);
+it('menolak kode kriteria yang duplikat dalam satu pengguna', function () {
+    Criterion::factory()->for($this->user)->create(['code' => 'C1']);
 
     $this->actingAs($this->user)
         ->post(route('criteria.store'), [
