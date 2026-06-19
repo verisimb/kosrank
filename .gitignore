@@ -43,3 +43,4 @@ yarn-error.log
 # Coolify / build logs
 /deployment-*.txt
 /deployment.md
+/per-user-data-plan.md

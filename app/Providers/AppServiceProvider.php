@@ -41,7 +41,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         DB::prohibitDestructiveCommands(
-            app()->isProduction(),
+            app()->isProduction() && ! filter_var(env('ALLOW_DESTRUCTIVE_COMMANDS', false), FILTER_VALIDATE_BOOLEAN),
         );
 
         Password::defaults(fn (): ?Password => app()->isProduction()
