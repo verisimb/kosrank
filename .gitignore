@@ -39,3 +39,7 @@ yarn-error.log
 /opencode.json
 /AGENTS.md
 /CLAUDE.md
+
+# Coolify / build logs
+/deployment-*.txt
+/deployment.md
