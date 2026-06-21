@@ -5,8 +5,11 @@ import {
     Building2,
     Calculator,
     CheckCircle2,
+    ChevronsUpDown,
     LayoutDashboard,
+    LayoutGrid,
     Moon,
+    PanelLeft,
     SlidersHorizontal,
     Sparkles,
     Sun,
@@ -122,6 +125,236 @@ const previewRanking = [
     { code: 'D', name: 'Kos D', score: 0.58, width: 69 },
 ];
 
+const previewSidebarItems: {
+    icon: ComponentType<{ className?: string }>;
+    label: string;
+    active?: boolean;
+}[] = [
+    { icon: LayoutGrid, label: 'Dashboard', active: true },
+    { icon: SlidersHorizontal, label: 'Kriteria' },
+    { icon: Building2, label: 'Alternatif' },
+    { icon: Table2, label: 'Nilai Alternatif' },
+    { icon: Calculator, label: 'Perhitungan' },
+    { icon: Trophy, label: 'Hasil & Rekomendasi' },
+];
+
+function AppPreviewMock() {
+    return (
+        <div className="relative">
+            <div className="overflow-hidden rounded-t-xl border border-b-0 bg-card shadow-2xl sm:rounded-t-2xl">
+                {/* Browser chrome */}
+                <div className="flex items-center gap-2 border-b bg-muted/50 px-3 py-2 sm:px-4 sm:py-2.5">
+                    <div className="flex gap-1.5">
+                        <span className="size-2 rounded-full bg-red-400 sm:size-2.5" />
+                        <span className="size-2 rounded-full bg-yellow-400 sm:size-2.5" />
+                        <span className="size-2 rounded-full bg-green-400 sm:size-2.5" />
+                    </div>
+                    <div className="ml-2 flex-1 sm:ml-3">
+                        <div className="mx-auto h-5 max-w-xs rounded-md bg-muted px-3 text-center text-[9px] leading-5 text-muted-foreground sm:text-[10px]">
+                            kosrank.yaelahver.dev/dashboard
+                        </div>
+                    </div>
+                </div>
+
+                <div className="flex bg-muted/20">
+                    {/* Sidebar */}
+                    <aside className="flex w-12 shrink-0 flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground sm:w-36 lg:w-40">
+                        <div className="flex h-10 items-center justify-center px-2 sm:h-12 sm:justify-start sm:px-3">
+                            <span className="sm:hidden">
+                                <img
+                                    src="/logo-no-text-lightmode.svg"
+                                    alt="KosRank"
+                                    className="size-5 dark:hidden"
+                                />
+                                <img
+                                    src="/logo-no-text-darkmode.svg"
+                                    alt="KosRank"
+                                    className="hidden size-5 dark:block"
+                                />
+                            </span>
+                            <span className="hidden sm:block">
+                                <img
+                                    src="/logo-lightmode.svg"
+                                    alt="KosRank"
+                                    className="h-5 w-auto dark:hidden"
+                                />
+                                <img
+                                    src="/logo-darkmode.svg"
+                                    alt="KosRank"
+                                    className="hidden h-5 w-auto dark:block"
+                                />
+                            </span>
+                        </div>
+
+                        <div className="flex-1 overflow-hidden p-1 sm:p-2">
+                            <p className="mb-1 hidden px-2 text-[9px] font-medium text-sidebar-foreground/70 sm:block">
+                                Menu
+                            </p>
+                            <nav className="space-y-0.5">
+                                {previewSidebarItems.map((item) => (
+                                    <div
+                                        key={item.label}
+                                        className={`flex items-center gap-1.5 rounded-lg px-1.5 py-1.5 sm:gap-2 sm:px-2 sm:py-1.5 ${
+                                            item.active
+                                                ? 'bg-sidebar-accent font-medium text-sidebar-accent-foreground'
+                                                : 'text-sidebar-foreground'
+                                        }`}
+                                    >
+                                        <item.icon className="mx-auto size-3.5 shrink-0 sm:mx-0 sm:size-4" />
+                                        <span className="hidden truncate text-[10px] sm:inline">
+                                            {item.label}
+                                        </span>
+                                    </div>
+                                ))}
+                            </nav>
+                        </div>
+
+                        <div className="border-t border-sidebar-border p-1 sm:p-2">
+                            <div className="flex items-center gap-1.5 rounded-lg px-1 py-1.5 sm:px-2">
+                                <div className="mx-auto flex size-5 shrink-0 items-center justify-center rounded-full bg-primary/15 text-[8px] font-semibold text-primary sm:mx-0 sm:size-6 sm:text-[10px]">
+                                    M
+                                </div>
+                                <div className="hidden min-w-0 flex-1 sm:block">
+                                    <p className="truncate text-[10px] font-medium">
+                                        Mahasiswa
+                                    </p>
+                                    <p className="truncate text-[9px] text-muted-foreground">
+                                        mahasiswa@email.com
+                                    </p>
+                                </div>
+                                <ChevronsUpDown className="hidden size-3 shrink-0 text-muted-foreground sm:block" />
+                            </div>
+                        </div>
+                    </aside>
+
+                    {/* Main content */}
+                    <div className="min-w-0 flex-1 bg-background">
+                        <header className="flex h-8 shrink-0 items-center gap-1.5 border-b px-2 sm:h-10 sm:gap-2 sm:px-4">
+                            <PanelLeft className="size-3 text-muted-foreground sm:size-3.5" />
+                            <span className="text-[9px] font-medium sm:text-[11px]">
+                                Dashboard
+                            </span>
+                        </header>
+
+                        <div className="p-2 sm:p-4 lg:p-6">
+                            {/* Stat cards */}
+                            <div className="grid grid-cols-3 gap-1.5 sm:gap-4">
+                                {[
+                                    {
+                                        icon: SlidersHorizontal,
+                                        value: '4',
+                                        label: 'Kriteria',
+                                    },
+                                    {
+                                        icon: Building2,
+                                        value: '5',
+                                        label: 'Alternatif',
+                                    },
+                                    {
+                                        icon: Calculator,
+                                        value: 'SAW',
+                                        label: 'Metode',
+                                    },
+                                ].map((stat) => (
+                                    <div
+                                        key={stat.label}
+                                        className="rounded-lg border bg-card p-1.5 sm:p-4"
+                                    >
+                                        <div className="flex size-5 items-center justify-center rounded-md bg-primary/10 sm:size-8">
+                                            <stat.icon className="size-2.5 text-primary sm:size-4" />
+                                        </div>
+                                        <p className="mt-1 text-xs font-bold sm:mt-3 sm:text-2xl">
+                                            {stat.value}
+                                        </p>
+                                        <p className="text-[7px] text-muted-foreground sm:text-xs">
+                                            {stat.label}
+                                        </p>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Ranking + chart */}
+                            <div className="mt-2 grid gap-1.5 sm:mt-4 sm:gap-4 lg:grid-cols-7">
+                                <div className="rounded-lg border p-2 sm:p-4 lg:col-span-4">
+                                    <p className="text-[10px] font-medium sm:text-sm">
+                                        Peringkat Kos
+                                    </p>
+                                    <p className="text-[7px] text-muted-foreground sm:text-xs">
+                                        Berdasarkan nilai preferensi SAW
+                                    </p>
+                                    <div className="mt-1.5 space-y-1 sm:mt-3 sm:space-y-2">
+                                        {previewRanking.map((row, index) => (
+                                            <div
+                                                key={row.code}
+                                                className={`flex items-center gap-1.5 rounded-md border p-1 sm:gap-2 sm:p-2.5 ${
+                                                    row.best
+                                                        ? 'border-emerald-200 bg-emerald-50 dark:border-emerald-900/40 dark:bg-emerald-900/10'
+                                                        : ''
+                                                }`}
+                                            >
+                                                <span className="flex size-4 shrink-0 items-center justify-center rounded-full bg-primary/10 text-[7px] font-bold text-primary sm:size-6 sm:text-xs">
+                                                    {index + 1}
+                                                </span>
+                                                <span className="flex-1 truncate text-[8px] font-medium sm:text-xs">
+                                                    {row.name}
+                                                </span>
+                                                {row.best && (
+                                                    <span className="rounded-full bg-emerald-500/15 px-1 py-0.5 text-[6px] font-medium text-emerald-600 sm:text-[10px] dark:text-emerald-400">
+                                                        Terbaik
+                                                    </span>
+                                                )}
+                                                <span className="shrink-0 text-[8px] text-muted-foreground tabular-nums sm:text-xs">
+                                                    {row.score.toFixed(4)}
+                                                </span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div className="hidden self-start rounded-lg border p-2.5 sm:block sm:p-4 lg:col-span-3">
+                                    <p className="flex items-center gap-1.5 text-[10px] font-medium sm:text-sm">
+                                        <BarChart3 className="size-3 sm:size-3.5" />
+                                        Grafik Nilai
+                                    </p>
+                                    <p className="text-[8px] text-muted-foreground sm:text-xs">
+                                        Perbandingan nilai preferensi
+                                    </p>
+                                    <div className="mt-2 space-y-2 sm:mt-3 sm:space-y-2.5">
+                                        {previewRanking.map((row) => (
+                                            <div
+                                                key={row.code}
+                                                className="space-y-0.5 sm:space-y-1"
+                                            >
+                                                <div className="flex items-center justify-between text-[9px] sm:text-xs">
+                                                    <span>{row.name}</span>
+                                                </div>
+                                                <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted sm:h-2">
+                                                    <div
+                                                        className={`h-full rounded-full ${
+                                                            row.best
+                                                                ? 'bg-emerald-500'
+                                                                : 'bg-primary'
+                                                        }`}
+                                                        style={{
+                                                            width: `${row.width}%`,
+                                                        }}
+                                                    />
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-background to-transparent" />
+        </div>
+    );
+}
+
 export default function Welcome() {
     const { auth } = usePage().props;
 
@@ -187,7 +420,7 @@ export default function Welcome() {
                             </Badge>
                             <h1 className="max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
                                 Pilih Kos Terbaik dengan{' '}
-                                <span className="text-primary">
+                                <span className="font-serif font-normal italic text-primary">
                                     Keputusan yang Objektif
                                 </span>
                             </h1>
@@ -242,146 +475,7 @@ export default function Welcome() {
                 {/* App preview */}
                 <section className="relative overflow-hidden pb-0">
                     <div className="mx-auto max-w-5xl px-2 sm:px-6">
-                        <div className="relative">
-                            <div className="overflow-hidden rounded-t-xl border border-b-0 bg-card shadow-2xl sm:rounded-t-2xl">
-                                {/* Browser chrome */}
-                                <div className="flex items-center gap-2 border-b bg-muted/50 px-3 py-2 sm:px-4 sm:py-2.5">
-                                    <div className="flex gap-1.5">
-                                        <span className="size-2 rounded-full bg-red-400 sm:size-2.5" />
-                                        <span className="size-2 rounded-full bg-yellow-400 sm:size-2.5" />
-                                        <span className="size-2 rounded-full bg-green-400 sm:size-2.5" />
-                                    </div>
-                                    <div className="ml-2 flex-1 sm:ml-3">
-                                        <div className="mx-auto h-5 max-w-xs rounded-md bg-muted px-3 text-center text-[9px] leading-5 text-muted-foreground sm:text-[10px]">
-                                            kosrank.test/result
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Mock content */}
-                                <div className="p-3 sm:p-6">
-                                    {/* Stat cards */}
-                                    <div className="grid grid-cols-3 gap-2 sm:gap-4">
-                                        {[
-                                            {
-                                                icon: SlidersHorizontal,
-                                                value: '4',
-                                                label: 'Kriteria',
-                                            },
-                                            {
-                                                icon: Building2,
-                                                value: '5',
-                                                label: 'Alternatif',
-                                            },
-                                            {
-                                                icon: Calculator,
-                                                value: 'SAW',
-                                                label: 'Metode',
-                                            },
-                                        ].map((stat) => (
-                                            <div
-                                                key={stat.label}
-                                                className="rounded-lg border bg-card p-2 sm:p-4"
-                                            >
-                                                <div className="flex size-6 items-center justify-center rounded-md bg-primary/10 sm:size-8">
-                                                    <stat.icon className="size-3 text-primary sm:size-4" />
-                                                </div>
-                                                <p className="mt-1.5 text-sm font-bold sm:mt-3 sm:text-2xl">
-                                                    {stat.value}
-                                                </p>
-                                                <p className="text-[8px] text-muted-foreground sm:text-xs">
-                                                    {stat.label}
-                                                </p>
-                                            </div>
-                                        ))}
-                                    </div>
-
-                                    {/* Ranking + chart */}
-                                    <div className="mt-3 grid gap-2 sm:mt-6 sm:gap-4 lg:grid-cols-7">
-                                        {/* Ranking table */}
-                                        <div className="rounded-lg border p-2.5 sm:p-4 lg:col-span-4">
-                                            <p className="text-[11px] font-medium sm:text-sm">
-                                                Peringkat Kos
-                                            </p>
-                                            <p className="text-[8px] text-muted-foreground sm:text-xs">
-                                                Berdasarkan nilai preferensi SAW
-                                            </p>
-                                            <div className="mt-2 space-y-1.5 sm:mt-3 sm:space-y-2">
-                                                {previewRanking.map(
-                                                    (row, index) => (
-                                                        <div
-                                                            key={row.code}
-                                                            className={`flex items-center gap-2 rounded-md border p-1.5 sm:p-2.5 ${
-                                                                row.best
-                                                                    ? 'border-emerald-200 bg-emerald-50 dark:border-emerald-900/40 dark:bg-emerald-900/10'
-                                                                    : ''
-                                                            }`}
-                                                        >
-                                                            <span className="flex size-4 shrink-0 items-center justify-center rounded-full bg-primary/10 text-[8px] font-bold text-primary sm:size-6 sm:text-xs">
-                                                                {index + 1}
-                                                            </span>
-                                                            <span className="flex-1 text-[9px] font-medium sm:text-xs">
-                                                                {row.name}
-                                                            </span>
-                                                            {row.best && (
-                                                                <span className="rounded-full bg-emerald-500/15 px-1.5 py-0.5 text-[7px] font-medium text-emerald-600 sm:text-[10px] dark:text-emerald-400">
-                                                                    Terbaik
-                                                                </span>
-                                                            )}
-                                                            <span className="shrink-0 text-[9px] text-muted-foreground tabular-nums sm:text-xs">
-                                                                {row.score.toFixed(
-                                                                    4,
-                                                                )}
-                                                            </span>
-                                                        </div>
-                                                    ),
-                                                )}
-                                            </div>
-                                        </div>
-
-                                        {/* Bar chart mock */}
-                                        <div className="hidden self-start rounded-lg border p-3 sm:block sm:p-4 lg:col-span-3">
-                                            <p className="flex items-center gap-1.5 text-xs font-medium sm:text-sm">
-                                                <BarChart3 className="size-3.5" />
-                                                Grafik Nilai
-                                            </p>
-                                            <p className="text-[9px] text-muted-foreground sm:text-xs">
-                                                Perbandingan nilai preferensi
-                                            </p>
-                                            <div className="mt-3 space-y-2.5">
-                                                {previewRanking.map((row) => (
-                                                    <div
-                                                        key={row.code}
-                                                        className="space-y-1"
-                                                    >
-                                                        <div className="flex items-center justify-between text-[10px] sm:text-xs">
-                                                            <span>
-                                                                {row.name}
-                                                            </span>
-                                                        </div>
-                                                        <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
-                                                            <div
-                                                                className={`h-full rounded-full ${
-                                                                    row.best
-                                                                        ? 'bg-emerald-500'
-                                                                        : 'bg-primary'
-                                                                }`}
-                                                                style={{
-                                                                    width: `${row.width}%`,
-                                                                }}
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Gradient fade */}
-                            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-background to-transparent" />
-                        </div>
+                        <AppPreviewMock />
                     </div>
                 </section>
 
@@ -392,7 +486,7 @@ export default function Welcome() {
                             <Badge variant="secondary" className="mb-4">
                                 Fitur Utama
                             </Badge>
-                            <h2 className="text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl">
+                            <h2 className="font-serif text-2xl tracking-tight italic sm:text-3xl md:text-4xl">
                                 Semua yang Dibutuhkan untuk Memilih Kos
                             </h2>
                             <p className="mt-3 max-w-2xl text-sm text-muted-foreground sm:mt-4 sm:text-base">
@@ -434,7 +528,7 @@ export default function Welcome() {
                             <Badge variant="secondary" className="mb-4">
                                 Cara Kerja
                             </Badge>
-                            <h2 className="text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl">
+                            <h2 className="font-serif text-2xl tracking-tight italic sm:text-3xl md:text-4xl">
                                 Tiga Langkah Mudah
                             </h2>
                             <p className="mt-3 max-w-2xl text-sm text-muted-foreground sm:mt-4 sm:text-base">
@@ -473,7 +567,7 @@ export default function Welcome() {
                 <section className="py-16 sm:py-24 lg:py-32">
                     <div className="mx-auto max-w-6xl px-4 sm:px-6">
                         <div className="flex flex-col items-center text-center">
-                            <h2 className="text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl">
+                            <h2 className="font-serif text-2xl tracking-tight italic sm:text-3xl md:text-4xl">
                                 Siap Menemukan Kos Terbaik?
                             </h2>
                             <p className="mt-3 max-w-xl text-sm text-muted-foreground sm:mt-4 sm:text-base">
