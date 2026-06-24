@@ -2,7 +2,7 @@
 
 ---
 
-## 👥 Anggota Kelompok
+## Anggota Kelompok
 
 | No | Nama | NIM |
 |---|---|---|
@@ -23,18 +23,18 @@ Dokumen ini menjelaskan aplikasi dari sisi non‑teknis (apa & kenapa) sampai te
 
 ## Daftar Isi
 
-### 🔵 Dokumentasi Front-End
+### Dokumentasi Front-End
 - [A. Library & Tech Stack Frontend](#a-library--tech-stack-frontend)
 - [B. Hierarki Komponen](#b-hierarki-komponen)
 - [C. State Management](#c-state-management)
 - [D. Halaman & Komponen UI](#d-halaman--komponen-ui)
 
-### 🟢 Dokumentasi Back-End
+### Dokumentasi Back-End
 - [E. Struktur Data (Database)](#e-struktur-data-database)
 - [F. Rancangan API / Endpoint](#f-rancangan-api--endpoint)
 - [G. Source Code Inti: Implementasi SAW](#g-source-code-inti-implementasi-saw)
 
-### 📖 Dokumentasi Umum
+### Dokumentasi Umum
 1. [Ringkasan & Tujuan](#1-ringkasan--tujuan)
 2. [Metode SAW (Konsep & Rumus)](#2-metode-saw-konsep--rumus)
 3. [Fitur Utama](#3-fitur-utama)
@@ -58,7 +58,7 @@ Dokumen ini menjelaskan aplikasi dari sisi non‑teknis (apa & kenapa) sampai te
 
 ---
 
-## 🔵 Dokumentasi Front-End
+## Dokumentasi Front-End
 
 ---
 
